@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -150,4 +151,21 @@ class ProjectInfo {
 
         return null;
     }
+	public static List<Map<String, Object>> getCapaties(int pno) throws Exception {
+		return (List<Map<String, Object>>) getInfos(pno).get("capacities");
+	}
+	public static List<Map<String, Object>> getItems(int pno) throws Exception {
+		return (List<Map<String, Object>>) getInfos(pno).get("items");
+	}
+	public static List<Map<String, Object>> getInstallments(int pno) throws Exception {
+		return (List<Map<String, Object>>) getInfos(pno).get("installments");
+	}
+	public static int getPrice(int pno) throws Exception {
+		List<Integer> prices=  new ArrayList<Integer>();
+		List<Map<String, Object>> items = getItems(pno);
+		for (var item : items) {
+			prices.add((Integer) item.get("price"));
+		}
+		return (int) ((double)prices.stream().mapToInt(x->x).sum()/prices.stream().count());
+	}
 }

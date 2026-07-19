@@ -1,8 +1,10 @@
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -59,6 +61,7 @@ public class A_메인 extends BF {
 		getContentPane().add(label);
 		
 		label_1 = new JLabel("mypage");
+		label_1.addMouseListener(new Label_1MouseListener());
 		label_1.setHorizontalAlignment(SwingConstants.CENTER);
 		label_1.setBounds(682, 10, 65, 15);
 		getContentPane().add(label_1);
@@ -84,7 +87,7 @@ public class A_메인 extends BF {
 		panel = new JPanel();
 		scrollPane_1.setViewportView(panel);
 		panel.setLayout(null);
-		
+		scrollPane_1.getVerticalScrollBar().setUnitIncrement(30);
 		updateForm();
 	}
 	
@@ -104,10 +107,10 @@ public class A_메인 extends BF {
 		}
 		var cap = new DefaultMutableTreeNode("용량"); 
 		root.add(cap);
-		cap.add(new DefaultMutableTreeNode("256"));
-		cap.add(new DefaultMutableTreeNode("512"));
-		cap.add(new DefaultMutableTreeNode("1024"));
-		cap.add(new DefaultMutableTreeNode("128"));
+		cap.add(new DefaultMutableTreeNode("256GB"));
+		cap.add(new DefaultMutableTreeNode("512GB"));
+		cap.add(new DefaultMutableTreeNode("1024GB"));
+		cap.add(new DefaultMutableTreeNode("128GB"));
 		var service = new DefaultMutableTreeNode("통신사");
 		root.add(service);
 		service.add(new DefaultMutableTreeNode("LG U+"));
@@ -130,17 +133,44 @@ public class A_메인 extends BF {
 			label_1.setVisible(true);
 			label_2.setText("로그아웃");
 		}
-		load();
+		try {
+			load();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
-	private void load() {
+	private void load() throws Exception {
+		panel.removeAll();
 		try (var rs = DB.res("select * from product")) {
+			int w = (scrollPane_1.getWidth()-60-30)/4, h = 180,i=0;
 			while(rs.next()) {
-				
+				int pno = rs.getInt(1);
+				int avg =ProjectInfo.getPrice(pno);
+				var pp = new A_패널(getIcon("기종/"+rs.getInt(1)+".jfif",w-10,h-75), rs.getString(2), avg);
+				pp.addMouseListener(new MouseAdapter() {
+					public void mouseClicked(MouseEvent e) {
+						if(User.uno==-1) {
+							msgErr("로그인을 하고 선택해주세요.");
+							showPage(new B_로그인());
+						}
+						else {
+							showPage(new C_상세정보(pno));
+						}
+					};
+				});
+				pp.setSize(w, h);
+				pp.setLocation(10+(w+8)*(i%4), 20+(h+8)*(i/4));
+				panel.add(pp);
+				i++;
 			}
+			i+=3;
+			panel.setPreferredSize(new Dimension(0, 20+(h+8)*(i/4)));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		panel.revalidate();
+		panel.repaint();
 	}
 
 	private class Label_2MouseListener extends MouseAdapter {
@@ -150,9 +180,16 @@ public class A_메인 extends BF {
 				showPage(new B_로그인());
 			}
 			else {
+				User.uno = -1;
 				msgInfo("로그아웃되었습니다.");
 				updateForm();
 			}
+		}
+	}
+	private class Label_1MouseListener extends MouseAdapter {
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			showPage(new E_마이페이지());
 		}
 	}
 }
