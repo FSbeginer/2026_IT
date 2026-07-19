@@ -1,0 +1,18 @@
+# Eclipse workspace metadata
+.metadata/
+
+# Java build output
+**/bin/
+**/target/
+**/build/
+*.class
+
+# IDE/system noise
+.settings/
+.DS_Store
+Thumbs.db
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
