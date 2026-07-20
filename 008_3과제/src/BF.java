@@ -161,8 +161,8 @@ class ProjectInfo {
 		return (List<Map<String, Object>>) getInfos(pno).get("installments");
 	}
 	public static int getPrice(int pno) throws Exception {
-		List<Integer> prices=  new ArrayList<Integer>();
 		List<Map<String, Object>> items = getItems(pno);
+		List<Integer> prices=  new ArrayList<Integer>();
 		for (var item : items) {
 			prices.add((Integer) item.get("price"));
 		}

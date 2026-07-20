@@ -8,15 +8,30 @@ import com.mysql.cj.protocol.a.NativeConstants.IntegerDataType;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Point;
+import java.awt.RenderingHints;
 import java.util.List;
 import java.util.Map;
 
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JPanel;
+import java.awt.event.MouseMotionAdapter;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.sql.SQLException;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseAdapter;
 
 public class C_상세정보 extends BF {
 
@@ -56,6 +71,10 @@ public class C_상세정보 extends BF {
 	public JTextField textField;
 	public JButton button;
 	public JButton button_1;
+	private JPanel jpDrawing;
+	private List<Map<String, Object>> caps;
+	private List<Map<String, Object>> items;
+	private List<Map<String, Object>> installments;
 	public C_상세정보(int pno) {
 		setTitle("상세정보");
 		this.pno = pno;
@@ -64,6 +83,25 @@ public class C_상세정보 extends BF {
 		getContentPane().setLayout(null);
 		
 		label = new JLabel("");
+		label.addMouseListener(new LabelMouseListener());
+		label.addMouseMotionListener(new LabelMouseMotionListener());
+		
+		jpDrawing = new JPanel() {
+			@Override
+			protected void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				Graphics2D g2 = (Graphics2D) g.create();
+				g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+				Image src = ((ImageIcon)label.getIcon()).getImage();
+				g2.drawImage(src, 3, 3, 154,154, mp.x,mp.y,mp.x+30,mp.y+30,this);
+				g2.dispose();
+			}
+		};
+		jpDrawing.setBackground(new Color(240, 240, 240));
+		jpDrawing.setBorder(new LineBorder(new Color(0, 0, 0)));
+		jpDrawing.setVisible(false);
+		jpDrawing.setBounds(82, 300, 167, 155);
+		getContentPane().add(jpDrawing);
 		label.setBorder(new LineBorder(Color.GRAY));
 		label.setBounds(24, 28, 211, 212);
 		getContentPane().add(label);
@@ -96,15 +134,16 @@ public class C_상세정보 extends BF {
 		comboBox.setBounds(267, 139, 262, 31);
 		getContentPane().add(comboBox);
 		
-		label_6 = new JLabel("용량");
+		label_6 = new JLabel("통신사");
 		label_6.setBounds(269, 192, 57, 15);
 		getContentPane().add(label_6);
 		
 		comboBox_1 = new JComboBox();
+		comboBox_1.addActionListener(new ComboBox_1ActionListener());
 		comboBox_1.setBounds(268, 210, 262, 31);
 		getContentPane().add(comboBox_1);
 		
-		label_7 = new JLabel("용량");
+		label_7 = new JLabel("할부");
 		label_7.setBounds(269, 261, 57, 15);
 		getContentPane().add(label_7);
 		
@@ -153,15 +192,15 @@ public class C_상세정보 extends BF {
 		String name = DB.select("select pname from product where pno = ?", String.class, pno);
 		label_2.setText(name);
 		label_1.setText(String.format("%,d원 / 월", ProjectInfo.getPrice(pno)/12));
-		var caps=ProjectInfo.getCapaties(pno);
+		caps=ProjectInfo.getCapaties(pno);
 		for (Map<String, Object> cap : caps) {
-			comboBox.addItem(cap.get("value")+"GB");
+			comboBox.addItem(cap.get("value"));
 		}
-		var items = ProjectInfo.getItems(pno);
+		items = ProjectInfo.getItems(pno);
 		for (Map<String, Object> map : items) {
 			comboBox_1.addItem(map.get("type"));
 		}
-		var installments = ProjectInfo.getInstallments(pno);
+		installments = ProjectInfo.getInstallments(pno);
 		for (Map<String, Object> map : installments) {
 			comboBox_2.addItem(map.get("month"));
 		}
@@ -175,7 +214,9 @@ public class C_상세정보 extends BF {
 				msgErr("요금제를 선택해주세요.");
 				return;
 			}
-//			showPage(new D_결제());
+			int cprice = (int) caps.get(comboBox.getSelectedIndex()).get("price");
+			var info = new PayInfo(pno, rno, cprice, comboBox.getSelectedItem().toString(), comboBox_1.getSelectedItem().toString());
+			showPage(new D_결제(info));
 		}
 	}
 	int rno = -1;
@@ -183,6 +224,60 @@ public class C_상세정보 extends BF {
 		public void actionPerformed(ActionEvent e) {
 			String type = (String) comboBox_1.getSelectedItem();
 //			통신사 선택
+			var d = new C_요금제선택(type);
+			d.addWindowListener(new WindowAdapter() {
+				@Override
+				public void windowClosed(WindowEvent e) {
+					if(d.rno != -1) {
+						C_상세정보.this.rno = d.rno;
+						try {
+							String name = DB.select("select rname from rateplan where rno = ?", String.class, rno);
+							textField.setText(name);
+						} catch (SQLException e1) {
+							e1.printStackTrace();
+						}
+					}
+				}
+			});
+			d.setVisible(true);
 		}
+	}
+	Point mp;
+	private class LabelMouseMotionListener extends MouseMotionAdapter {
+		@Override
+		public void mouseMoved(MouseEvent e) {
+			mp = e.getPoint();
+			var loc = SwingUtilities.convertPoint(label, mp, getContentPane());
+			jpDrawing.setLocation(loc.x+5,loc.y+5);
+			jpDrawing.repaint();
+		}
+	}
+	private class LabelMouseListener extends MouseAdapter {
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			jpDrawing.setVisible(true);
+		}
+		@Override
+		public void mouseExited(MouseEvent e) {
+			jpDrawing.setVisible(false);
+		}
+	}
+	private class ComboBox_1ActionListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			rno = -1;
+			textField.setText("요금제 선택 안됨");
+		}
+	}
+}
+class PayInfo{
+	int pno,rno,cprice; // 상품, 요금제, 용량가
+	String capName,servieNmae;
+	public PayInfo(int pno, int rno, int cprice, String capName, String servieNmae) {
+		super();
+		this.pno = pno;
+		this.rno = rno;
+		this.cprice = cprice;
+		this.capName = capName;
+		this.servieNmae = servieNmae;
 	}
 }
