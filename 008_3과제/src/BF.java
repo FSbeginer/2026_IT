@@ -52,6 +52,20 @@ public class BF extends JFrame {
 		next.setDefaultCloseOperation(2);
 		next.setVisible(true);
 	}
+	public void showPage(Class<?> type) {
+		prev.add(this);
+		while(!prev.isEmpty()) {
+			var  p = prev.pop();
+			if(type.isInstance(p)) {
+				p.updateForm();
+				p.setVisible(true);
+				break;
+			}
+			else {
+				p.dispose();
+			}
+		}
+	}
 	public static ImageIcon getIcon(String path) {
 		return new ImageIcon("./datafiles/"+path);
 	}
@@ -118,7 +132,7 @@ class DB{
 	}
 }
 class User{
-	public static int uno = -1;
+	public static int uno = 1;
 	String name, id, pw;
 	LocalDate birth;
 	int price;

@@ -121,6 +121,7 @@ public class C_상세정보 extends BF {
 		getContentPane().add(label_3);
 		
 		label_4 = new JLabel("★");
+		label_4.addMouseListener(new Label_4MouseListener());
 		label_4.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 		label_4.setForeground(Color.ORANGE);
 		label_4.setBounds(340, 77, 138, 15);
@@ -215,7 +216,8 @@ public class C_상세정보 extends BF {
 				return;
 			}
 			int cprice = (int) caps.get(comboBox.getSelectedIndex()).get("price");
-			var info = new PayInfo(pno, rno, cprice, comboBox.getSelectedItem().toString(), comboBox_1.getSelectedItem().toString());
+			int sprice = (int) items.get(comboBox_1.getSelectedIndex()).get("price");
+			var info = new PayInfo(pno, rno, cprice, comboBox.getSelectedItem().toString(), comboBox_1.getSelectedItem().toString(), comboBox_2.getSelectedItem().toString(), sprice);
 			showPage(new D_결제(info));
 		}
 	}
@@ -268,16 +270,24 @@ public class C_상세정보 extends BF {
 			textField.setText("요금제 선택 안됨");
 		}
 	}
+	private class Label_4MouseListener extends MouseAdapter {
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			showPage(new G_리뷰(pno));
+		}
+	}
 }
 class PayInfo{
-	int pno,rno,cprice; // 상품, 요금제, 용량가
-	String capName,servieNmae;
-	public PayInfo(int pno, int rno, int cprice, String capName, String servieNmae) {
+	int pno,rno,cprice, sprice; // 상품, 요금제, 용량가
+	String capName,servieNmae, install;
+	public PayInfo(int pno, int rno, int cprice, String capName, String servieNmae, String install, int sprice) {
 		super();
 		this.pno = pno;
 		this.rno = rno;
+		this.sprice = sprice;
 		this.cprice = cprice;
 		this.capName = capName;
 		this.servieNmae = servieNmae;
+		this.install = install;
 	}
 }
