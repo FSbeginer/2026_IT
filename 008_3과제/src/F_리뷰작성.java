@@ -180,7 +180,7 @@ public class F_리뷰작성 extends BF {
 			try {
 				DB.insert("star", 0,title,txt,score,pno);
 				msgInfo("등록이 완료되었습니다.");
-				int rno = DB.select("select sno  from star order by desc limit 1", Integer.class);
+				int rno = DB.select("select sno  from star order by sno desc limit 1", Integer.class);
 				try {
 					Files.copy(file.toPath(),Paths.get("./review/"+rno+".jfif"), StandardCopyOption.REPLACE_EXISTING);
 				} catch (IOException e1) {

@@ -230,7 +230,7 @@ public class B_회원가입 extends BF {
 				return;
 			}
 			if(!Pattern.compile("^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$").matcher(email).find()) {
-				msgErr("전화번호 형식이 올바르지 않습니다.");
+				msgErr("이메일 형식이 올바르지 않습니다.");
 				return;
 			}
 			if(file == null) {

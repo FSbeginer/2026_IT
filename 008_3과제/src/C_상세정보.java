@@ -6,6 +6,8 @@ import javax.swing.border.LineBorder;
 
 import com.mysql.cj.protocol.a.NativeConstants.IntegerDataType;
 
+import test.Origional;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -192,16 +194,16 @@ public class C_상세정보 extends BF {
 	private void load() throws Exception {
 		String name = DB.select("select pname from product where pno = ?", String.class, pno);
 		label_2.setText(name);
-		label_1.setText(String.format("%,d원 / 월", ProjectInfo.getPrice(pno)/12));
-		caps=ProjectInfo.getCapaties(pno);
+		label_1.setText(String.format("%,d원 / 월", Origional.getPrice(pno)/12));
+		caps=Origional.getCapaties(pno);
 		for (Map<String, Object> cap : caps) {
 			comboBox.addItem(cap.get("value"));
 		}
-		items = ProjectInfo.getItems(pno);
+		items = Origional.getItems(pno);
 		for (Map<String, Object> map : items) {
 			comboBox_1.addItem(map.get("type"));
 		}
-		installments = ProjectInfo.getInstallments(pno);
+		installments = Origional.getInstallments(pno);
 		for (Map<String, Object> map : installments) {
 			comboBox_2.addItem(map.get("month"));
 		}

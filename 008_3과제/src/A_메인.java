@@ -18,6 +18,8 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 
+import test.Origional;
+
 public class A_메인 extends BF {
 	public JLabel label;
 	public JLabel label_1;
@@ -36,7 +38,9 @@ public class A_메인 extends BF {
 			public void run() {
 				try {
 					A_메인 frame = new A_메인();
+					frame.setLocationRelativeTo(null);
 					frame.setVisible(true);
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -146,7 +150,7 @@ public class A_메인 extends BF {
 			int w = (scrollPane_1.getWidth()-60-30)/4, h = 180,i=0;
 			while(rs.next()) {
 				int pno = rs.getInt(1);
-				int avg =ProjectInfo.getPrice(pno);
+				int avg =Origional.getPrice(pno);
 				var pp = new A_패널(getIcon("기종/"+rs.getInt(1)+".jfif",w-10,h-75), rs.getString(2), avg);
 				pp.addMouseListener(new MouseAdapter() {
 					public void mouseClicked(MouseEvent e) {

@@ -1,0 +1,7 @@
+cno	cname	price
+1	scale	30000
+2	cavity	50000
+3	nerves	80000
+4	ortho	30000
+5	ortho_detail	115000
+6	implant	120000
