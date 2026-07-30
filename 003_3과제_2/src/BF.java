@@ -2,6 +2,7 @@ import java.awt.Color;
 import java.awt.Image;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -10,10 +11,15 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Stack;
 import java.util.function.Consumer;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -26,7 +32,17 @@ public class BF extends JFrame {
 		UIManager.put("Panel.background", Color.white);
 		UIManager.put("OptionPane.background", Color.white);
 	}
-
+//	static List<Image> test = new ArrayList<Image>();
+//	static {
+//		try {
+//			var rs = DB.res("select * from post");
+//			while(rs.next()) {
+//				Helper.getImage("posts/"+rs.getInt(1)+".jpg", x->test.add(x));
+//			}
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//	}
 	public BF() {
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -80,8 +96,21 @@ class Helper{
 			@Override
 			public void run() {
 				try {
-					var data = Files.readAllBytes(Path.of("./datafiles/"+path));
-					con.accept(new ImageIcon(data).getImage().getScaledInstance(w, h, 4));
+					var img = ImageIO.read(new File("./datafiles/"+path));
+					con.accept(img.getScaledInstance(w, h, Image.SCALE_FAST));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+	public static void getImage(String path, Consumer<Image> con) {
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					var img = ImageIO.read(new File("./datafiles/"+path));
+					con.accept(img);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

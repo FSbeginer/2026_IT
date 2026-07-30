@@ -42,7 +42,7 @@ public class C_게시물패널 extends JPanel {
 		label_3.setForeground(Color.WHITE);
 		label_3.setFont(new Font("맑은 고딕", Font.BOLD, 23));
 		label_3.setHorizontalAlignment(SwingConstants.CENTER);
-		label_3.setBounds(11, 174, 28, 59);
+		label_3.setBounds(19, 174, 28, 59);
 		add(label_3);
 		
 		label_4 = new JLabel(">");

@@ -11,7 +11,7 @@ public class J_유저정보 extends BF {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					J_유저정보 frame = new J_유저정보();
+					J_유저정보 frame = new J_유저정보(1);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -22,8 +22,11 @@ public class J_유저정보 extends BF {
 
 	/**
 	 * Create the frame.
+	 * @param uno 
 	 */
-	public J_유저정보() {
+	int uno;
+	public J_유저정보(int uno) {
+		this.uno = uno;
 		setBounds(100, 100, 450, 300);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

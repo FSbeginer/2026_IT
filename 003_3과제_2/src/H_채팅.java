@@ -7,23 +7,18 @@ public class H_채팅 extends BF {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					H_채팅 frame = new H_채팅();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+
 
 	/**
 	 * Create the frame.
+	 * @param pno 
+	 * @param uno 
 	 */
+	public H_채팅(int uno, int pno) {
+		this();
+	}
 	public H_채팅() {
+		setTitle("채팅");
 		setBounds(100, 100, 450, 300);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

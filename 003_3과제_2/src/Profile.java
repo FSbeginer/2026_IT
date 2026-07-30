@@ -23,9 +23,6 @@ public class Profile extends JPanel {
 		this.circle = circle;
 	}
 
-	/**
-	 * @wbp.parser.constructor
-	 */
 	public Profile(String path, int w,int h) {
 		setSize(w, h);
 		Helper.getImage(path, w-3,h-3, x->{
