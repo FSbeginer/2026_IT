@@ -65,7 +65,7 @@ public class BF extends JFrame {
 		var g2 = bi.createGraphics();
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		Image src = getIcon("logo.png",w,h).getImage();
-		g2.drawImage(src, 0, 0, w, h+70, 0, 0, (int) (src.getWidth(null)*0.45), src.getHeight(null), null);
+		g2.drawImage(src, -30, -30, w, h+30, 0, 0, (int) (src.getWidth(null)*0.45), src.getHeight(null), null);
 		return bi;
 	}
 	public static void msgInfo(String msg) {

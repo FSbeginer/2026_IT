@@ -22,6 +22,7 @@ public class MainFrame extends BF {
 	public JLabel label;
 	public JLabel label_1;
 	public JLabel label_2;
+	public JPanel panel_3;
 
 	/**
 	 * Launch the application.
@@ -71,6 +72,10 @@ public class MainFrame extends BF {
 		label_2.setFont(new Font("맑은 고딕", Font.BOLD, 11));
 		label_2.setBounds(814, 10, 96, 60);
 		panel.add(label_2);
+		
+		panel_3 = new JPanel();
+		panel_3.setBounds(311, 17, 239, 53);
+		panel.add(panel_3);
 		
 		panel_1 = new JPanel();
 		panel_1.setPreferredSize(new Dimension(10, 70));

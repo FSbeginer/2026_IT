@@ -1,8 +1,12 @@
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import java.awt.BorderLayout;
+import javax.swing.SwingConstants;
 
 public class H_채팅 extends BF {
+	public JLabel label;
 
 	/**
 	 * Launch the application.
@@ -24,8 +28,13 @@ public class H_채팅 extends BF {
 	 * Create the frame.
 	 */
 	public H_채팅() {
+		setTitle("메시지");
 		setBounds(100, 100, 450, 300);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		label = new JLabel("X");
+		label.setHorizontalAlignment(SwingConstants.CENTER);
+		getContentPane().add(label, BorderLayout.CENTER);
 
 	}
 

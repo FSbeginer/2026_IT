@@ -1,0 +1,6 @@
+uno	uname	uid	upw	unick	uemail	unumber	uprice
+1	김서준	user01	user01!	별빛장바구니	user01@email.com	010-1234-5678	3000000
+2	이지우	user02	user02!	오늘도득템	user02@email.com	010-2345-6789	5000000
+3	박민서	user03	user03!	민트배송	user03@email.com	010-3456-7890	2000000
+4	최현우	user04	user04!	쿠키앤카트	user04@email.com	010-4567-8901	7000000
+5	정예린	user05	user05!	새벽세일헌터	user05@email.com	010-5678-9012	4000000

@@ -140,7 +140,7 @@ public class C_메인 extends BF {
 			int w = 50, h = 70, i =0;
 			List<Integer> unos = new ArrayList<Integer>();
 			while(rs.next()) {
-				var pp = Rows.profileVnick(rs.getInt("u_no"), rs.getString("u_nick"), w, h);
+				var pp = Rows.profileStory(rs.getInt("u_no"), rs.getString("u_nick"), w, h);
 				int idx = i;
 				pp.addMouseListener(new MouseAdapter() {
 					@Override

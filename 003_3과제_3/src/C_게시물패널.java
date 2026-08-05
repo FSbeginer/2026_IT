@@ -102,7 +102,7 @@ public class C_게시물패널 extends JPanel {
 	private void load() {
 		try (var rs = DB.res("select * from post join user using(u_no) where p_no = ? ",pno)) {
 			rs.next();
-			label_10 = Rows.profileHnick(rs.getInt("u_no"), rs.getString("u_nick"), 290, 35);
+			label_10 = Rows.profilePost(rs.getInt("u_no"), rs.getString("u_nick"), 290, 35);
 			label_10.setBounds(12, 18, 290, 36);
 			add(label_10);
 			

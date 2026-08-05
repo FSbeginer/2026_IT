@@ -167,7 +167,7 @@ class DB {
 	}
 }
 class User{
-	public static int uno=-1;
+	public static int uno=1;
 	public String name,id,pw,card;
 	public LocalDate birth;
 	int price;

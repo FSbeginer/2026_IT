@@ -235,16 +235,16 @@ public class A_메인 extends BF {
 
 		int w = (scrollPane_1.getWidth() - 60 - 30) / 4, h = 180, i = 0;
 		for (Product p : shown) {
-			var pp = new A_패널(p, w, h);
+			var pp = new A_패널(null, null, 0);
 			pp.addMouseListener(new MouseAdapter() {
 				public void mouseClicked(MouseEvent e) {
 					if (e.getClickCount() != 2)
 						return; // 더블클릭만
 					if (User.uno == -1) {
 						msgErr("로그인을 하고 선택해주세요.");
-						showPage(new B_로그인());
+//						showPage(new B_로그인());
 					} else {
-						showPage(new C_상세정보(p.pno));
+//						showPage(new C_상세정보(p.pno));
 					}
 				};
 			});
@@ -315,7 +315,7 @@ public class A_메인 extends BF {
 	private class Label_1MouseListener extends MouseAdapter {
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			showPage(new E_마이페이지());
+//			showPage(new E_마이페이지());
 		}
 	}
 
@@ -323,7 +323,7 @@ public class A_메인 extends BF {
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			if (User.uno == -1) {
-				showPage(new B_로그인());
+//				showPage(new B_로그인());
 			} else {
 				User.uno = -1;
 				msgInfo("로그아웃되었습니다.");

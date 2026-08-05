@@ -1,0 +1,4 @@
+cno	cname
+1	Apple
+2	Samsung
+3	xiaomi

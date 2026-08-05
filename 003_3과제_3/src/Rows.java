@@ -31,7 +31,31 @@ public class Rows {
 		jl.setText(String.format("<html><b><font color = 'white' size = '4'>%s</b></font><br><font color = 'white' size ='2'>%s", nick,content));
 		return jl;
 	}
-	public static JLabel profileHnick(int uno, String nick, int w, int h) {
+	public static JLabel profileForComment(int uno, String nick, int w, int h) {
+		var jl = new JLabel();
+		jl.setSize(w, h);
+		Helper.getImage("profile/" + uno + ".jpg", 35,35, true,x->jl.setIcon(new ImageIcon(x)));
+		jl.setText("  "+nick);
+		jl.setFont(new Font("맑은 고딕",1,12));
+		return jl;
+	}
+	public static JLabel profileForComment(int uno, String nick, String comment, String date, int w, int h) {
+		var jl = new JLabel();
+		jl.setSize(w, h);
+		Helper.getImage("profile/" + uno + ".jpg", 40,40, true,x->jl.setIcon(new ImageIcon(x)));
+		jl.setFont(new Font("맑은 고딕",0,11));
+		jl.setText(String.format("<html>  <b>%s </b>%s<br><font color = gray>%s", nick, comment, date));
+		return jl;
+	}
+	public static JLabel postForSearch(int pno, String nick, String content, String file, int w, int h) {
+		var jl = new JLabel();
+		jl.setSize(w, h);
+		Helper.getImage("posts/"+file+".jpg", 50, 70, false, x->jl.setIcon(new ImageIcon(x)));
+		jl.setFont(new Font("맑은 고딕",0,11));
+		jl.setText(String.format("<html><b>%s</b><br>%s<br><font color = gray>게시물 #%d", nick, content, pno));
+		return jl;
+	}
+	public static JLabel profilePost(int uno, String nick, int w, int h) {
 		var jl = new JLabel() {
 			@Override
 			protected void paintComponent(Graphics g) {
@@ -48,7 +72,7 @@ public class Rows {
 		jl.setFont(new Font("맑은 고딕",1,12));
 		return jl;
 	}
-	public static JLabel profileVnick(int uno, String nick, int w, int h) {
+	public static JLabel profileStory(int uno, String nick, int w, int h) {
 		var jl = new JLabel() {
 			@Override
 			protected void paintComponent(Graphics g) {
