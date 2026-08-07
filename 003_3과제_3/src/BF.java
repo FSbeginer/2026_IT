@@ -5,8 +5,11 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -83,15 +86,15 @@ class User {
 
 class Helper {
 	private static final ExecutorService services = Executors.newFixedThreadPool(6);
-	private static final Object KEY = new Object();
+//	private static final Object KEY = new Object();
 	public static void getImage(String path, int w, int h, boolean circle, Consumer<Image> con) {
 		services.execute(() -> {
-			var file = new File("./datafiles/" + path);
+//			var file = new File("./datafiles/" + path);
 			try {
 				BufferedImage src;
-				synchronized (KEY) {
-					src = ImageIO.read(file);
-				}
+//				synchronized (KEY) {
+				src = ImageIO.read(new ByteArrayInputStream(Files.readAllBytes(Path.of("./datafiles/"+path))));
+//				}
 				var out = scale(src, w, h, circle);
 				SwingUtilities.invokeLater(() -> con.accept(out));
 			} catch (IOException e) {
